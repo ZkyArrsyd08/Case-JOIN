@@ -1,0 +1,96 @@
+
+Setting environment for using XAMPP for Windows.
+User@DESKTOP-NFUJNG5 c:\xampp
+
+# mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 92
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create database perpustakaan;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> use perpustakaan;
+Database changed
+MariaDB [perpustakaan]> create table buku(
+    -> id_buku int primary key auto_increment,
+    -> judul varchar(50));
+Query OK, 0 rows affected (0.024 sec)
+
+MariaDB [perpustakaan]> create table peminjaman(
+    -> id_pinjam int primary key auto_increment,
+    -> id_buku int,
+    -> nama_peminjam varchar(50));
+Query OK, 0 rows affected (0.023 sec)
+
+MariaDB [perpustakaan]> insert into buku (judul) values
+    -> ('Matematika'),
+    -> ('Bahasa Indonesia'),
+    -> ('IPA'),
+    -> ('Sejarah');
+Query OK, 4 rows affected (0.006 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [perpustakaan]> insert into peminjaman (id_buku, nama_peminjam) values
+    -> (1, 'Rina'),
+    -> (3, 'Andi'),
+    -> (5, 'Budi');
+Query OK, 3 rows affected (0.006 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [perpustakaan]> select * from buku;
++---------+------------------+
+| id_buku | judul            |
++---------+------------------+
+|       1 | Matematika       |
+|       2 | Bahasa Indonesia |
+|       3 | IPA              |
+|       4 | Sejarah          |
++---------+------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [perpustakaan]> select * from peminjaman;
++-----------+---------+---------------+
+| id_pinjam | id_buku | nama_peminjam |
++-----------+---------+---------------+
+|         1 |       1 | Rina          |
+|         2 |       3 | Andi          |
+|         3 |       5 | Budi          |
++-----------+---------+---------------+
+3 rows in set (0.000 sec)
+
+MariaDB [perpustakaan]> select peminjaman.nama_peminjam, buku.judul from peminjaman inner join buku on peminjaman.id_buku = buku.id_buku;
++---------------+------------+
+| nama_peminjam | judul      |
++---------------+------------+
+| Rina          | Matematika |
+| Andi          | IPA        |
++---------------+------------+
+2 rows in set (0.000 sec)
+
+MariaDB [perpustakaan]> select peminjaman.nama_peminjam, buku.judul from peminjaman left join buku on peminjaman.id_buku = buku.id_buku;
++---------------+------------+
+| nama_peminjam | judul      |
++---------------+------------+
+| Rina          | Matematika |
+| Andi          | IPA        |
+| Budi          | NULL       |
++---------------+------------+
+3 rows in set (0.005 sec)
+
+MariaDB [perpustakaan]> select peminjaman.nama_peminjam, buku.judul from peminjaman right join buku on peminjaman.id_buku = buku.id_buku;
++---------------+------------------+
+| nama_peminjam | judul            |
++---------------+------------------+
+| Rina          | Matematika       |
+| Andi          | IPA              |
+| NULL          | Bahasa Indonesia |
+| NULL          | Sejarah          |
++---------------+------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [perpustakaan]>
